@@ -1,69 +1,79 @@
-import Image from "next/image";
+"use client";
+
+import { useCallback, useState } from "react";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
+import { LANGUAGES, DEFAULT_LANGUAGE } from "@/lib/languages";
+import { getClientSessionId } from "@/lib/client/session";
+import type { ParsedCommand } from "@/types";
 
 export default function Home() {
+  const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
+  const [command, setCommand] = useState<ParsedCommand | null>(null);
+  const [isParsing, setIsParsing] = useState(false);
+
+  const { speak } = useSpeechSynthesis(true);
+
+  const handleTranscript = useCallback(
+    async (transcript: string) => {
+      setIsParsing(true);
+      try {
+        const response = await fetch("/api/parse", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ transcript }),
+        });
+        const result: ParsedCommand = await response.json();
+        setCommand(result);
+        speak(`${result.intent} ${result.canonicalItem ?? result.rawItem ?? ""}`, language);
+      } finally {
+        setIsParsing(false);
+      }
+    },
+    [language, speak]
+  );
+
+  const { status, interimTranscript, errorMessage, isSupported, start, stop } =
+    useSpeechRecognition({ language, onFinalTranscript: handleTranscript });
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="mx-auto flex max-w-md flex-col gap-4 p-6">
+      <h1 className="text-2xl font-semibold">VoiceCart smoke test</h1>
+
+      <p className="text-sm text-ink-soft">session: {getClientSessionId().slice(0, 8)}</p>
+
+      <select
+        value={language}
+        onChange={(event) => setLanguage(event.target.value)}
+        className="rounded border border-line bg-paper-raised p-2"
+      >
+        {LANGUAGES.map((entry) => (
+          <option key={entry.code} value={entry.code}>
+            {entry.label}
+          </option>
+        ))}
+      </select>
+
+      <button
+        onClick={status === "listening" ? stop : start}
+        disabled={!isSupported}
+        className={`rounded-full bg-accent px-6 py-4 font-medium text-white disabled:opacity-40 ${
+          status === "listening" ? "mic-listening" : ""
+        }`}
+      >
+        {status === "listening" ? "Listening — tap to stop" : "Tap and speak"}
+      </button>
+
+      <p className="text-sm">status: {status}</p>
+      {interimTranscript && <p className="italic text-ink-faint">{interimTranscript}</p>}
+      {errorMessage && <p className="text-danger">{errorMessage}</p>}
+      {isParsing && <p className="text-live">parsing…</p>}
+
+      {command && (
+        <pre className="overflow-auto rounded bg-paper-raised p-3 text-xs">
+          {JSON.stringify(command, null, 2)}
+        </pre>
+      )}
+    </main>
   );
 }
