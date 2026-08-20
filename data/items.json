@@ -1,0 +1,68 @@
+{
+  "milk":          { "category": "dairy", "unit": "litre", "avgIntervalDays": 4,  "substitutes": ["almond milk", "soy milk", "oat milk"], "aliases": ["milk", "doodh", "दूध", "leche", "lait"] },
+  "curd":          { "category": "dairy", "unit": "g", "avgIntervalDays": 5,      "substitutes": ["greek yogurt", "buttermilk"], "aliases": ["curd", "yogurt", "yoghurt", "dahi", "दही", "yogur", "yaourt"] },
+  "butter":        { "category": "dairy", "unit": "g", "avgIntervalDays": 21,     "substitutes": ["margarine", "ghee"], "aliases": ["butter", "makkhan", "मक्खन", "mantequilla", "beurre"] },
+  "cheese":        { "category": "dairy", "unit": "g", "avgIntervalDays": 14,     "substitutes": ["paneer", "tofu"], "aliases": ["cheese", "chiz", "चीज़", "queso", "fromage"] },
+  "paneer":        { "category": "dairy", "unit": "g", "avgIntervalDays": 10,     "substitutes": ["tofu", "cheese"], "aliases": ["paneer", "पनीर", "cottage cheese"] },
+  "ghee":          { "category": "dairy", "unit": "g", "avgIntervalDays": 45,     "substitutes": ["butter", "cooking oil"], "aliases": ["ghee", "घी", "clarified butter"] },
+  "eggs":          { "category": "dairy", "unit": "piece", "avgIntervalDays": 7,  "substitutes": ["tofu", "paneer"], "aliases": ["egg", "eggs", "ande", "अंडे", "huevos", "oeufs", "œufs"] },
+
+  "apples":        { "category": "produce", "unit": "kg", "avgIntervalDays": 7,   "substitutes": ["pears", "oranges"], "aliases": ["apple", "apples", "seb", "सेब", "manzana", "pomme"] },
+  "bananas":       { "category": "produce", "unit": "dozen", "avgIntervalDays": 5,"substitutes": ["apples", "papaya"], "aliases": ["banana", "bananas", "kela", "केला", "plátano", "platano", "banane"] },
+  "tomatoes":      { "category": "produce", "unit": "kg", "avgIntervalDays": 5,   "substitutes": ["tomato puree", "canned tomatoes"], "aliases": ["tomato", "tomatoes", "tamatar", "टमाटर", "tomate"] },
+  "onions":        { "category": "produce", "unit": "kg", "avgIntervalDays": 10,  "substitutes": ["spring onions", "shallots"], "aliases": ["onion", "onions", "pyaaz", "प्याज", "cebolla", "oignon"] },
+  "potatoes":      { "category": "produce", "unit": "kg", "avgIntervalDays": 10,  "substitutes": ["sweet potatoes"], "aliases": ["potato", "potatoes", "aloo", "आलू", "patata", "papa", "pomme de terre"] },
+  "spinach":       { "category": "produce", "unit": "bunch", "avgIntervalDays": 5,"substitutes": ["kale", "fenugreek leaves"], "aliases": ["spinach", "palak", "पालक", "espinacas", "epinards", "épinards"] },
+  "carrots":       { "category": "produce", "unit": "kg", "avgIntervalDays": 8,   "substitutes": ["beetroot", "radish"], "aliases": ["carrot", "carrots", "gajar", "गाजर", "zanahoria", "carotte"] },
+  "oranges":       { "category": "produce", "unit": "kg", "avgIntervalDays": 8,   "substitutes": ["sweet lime", "apples"], "aliases": ["orange", "oranges", "santra", "संतरा", "naranja"] },
+  "mangoes":       { "category": "produce", "unit": "kg", "avgIntervalDays": 6,   "substitutes": ["papaya", "peaches"], "aliases": ["mango", "mangoes", "aam", "आम", "mangue"] },
+  "lemons":        { "category": "produce", "unit": "piece", "avgIntervalDays": 12,"substitutes": ["lime", "vinegar"], "aliases": ["lemon", "lemons", "nimbu", "नींबू", "limón", "limon", "citron"] },
+  "coriander":     { "category": "produce", "unit": "bunch", "avgIntervalDays": 4,"substitutes": ["parsley", "mint"], "aliases": ["coriander", "cilantro", "dhania", "धनिया", "coriandre"] },
+  "garlic":        { "category": "produce", "unit": "g", "avgIntervalDays": 20,   "substitutes": ["garlic paste", "ginger"], "aliases": ["garlic", "lehsun", "लहसुन", "ajo", "ail"] },
+  "ginger":        { "category": "produce", "unit": "g", "avgIntervalDays": 15,   "substitutes": ["ginger paste", "dry ginger"], "aliases": ["ginger", "adrak", "अदरक", "jengibre", "gingembre"] },
+  "cucumber":      { "category": "produce", "unit": "kg", "avgIntervalDays": 6,   "substitutes": ["zucchini"], "aliases": ["cucumber", "kheera", "खीरा", "pepino", "concombre"] },
+  "capsicum":      { "category": "produce", "unit": "kg", "avgIntervalDays": 8,   "substitutes": ["bell pepper", "green chilli"], "aliases": ["capsicum", "bell pepper", "shimla mirch", "शिमला मिर्च", "pimiento", "poivron"] },
+
+  "bread":         { "category": "bakery", "unit": "loaf", "avgIntervalDays": 4,  "substitutes": ["brown bread", "pav", "roti"], "aliases": ["bread", "double roti", "ब्रेड", "pan", "pain"] },
+  "brown bread":   { "category": "bakery", "unit": "loaf", "avgIntervalDays": 4,  "substitutes": ["bread", "multigrain bread"], "aliases": ["brown bread", "whole wheat bread", "atta bread"] },
+  "buns":          { "category": "bakery", "unit": "pack", "avgIntervalDays": 10, "substitutes": ["bread", "pav"], "aliases": ["bun", "buns", "pav", "पाव"] },
+  "biscuits":      { "category": "snacks", "unit": "pack", "avgIntervalDays": 7,  "substitutes": ["cookies", "rusk"], "aliases": ["biscuit", "biscuits", "cookies", "बिस्किट", "galletas"] },
+
+  "chicken":       { "category": "meat", "unit": "kg", "avgIntervalDays": 7,      "substitutes": ["paneer", "soya chunks"], "aliases": ["chicken", "murga", "चिकन", "pollo", "poulet"] },
+  "fish":          { "category": "meat", "unit": "kg", "avgIntervalDays": 10,     "substitutes": ["chicken", "prawns"], "aliases": ["fish", "machhli", "मछली", "pescado", "poisson"] },
+  "mutton":        { "category": "meat", "unit": "kg", "avgIntervalDays": 20,     "substitutes": ["chicken"], "aliases": ["mutton", "goat meat", "मटन", "cordero"] },
+
+  "frozen peas":   { "category": "frozen", "unit": "g", "avgIntervalDays": 15,    "substitutes": ["fresh peas", "corn"], "aliases": ["frozen peas", "peas", "matar", "मटर", "guisantes", "petits pois"] },
+  "ice cream":     { "category": "frozen", "unit": "pack", "avgIntervalDays": 14, "substitutes": ["frozen yogurt", "kulfi"], "aliases": ["ice cream", "icecream", "आइसक्रीम", "helado", "glace"] },
+  "frozen paratha":{ "category": "frozen", "unit": "pack", "avgIntervalDays": 14, "substitutes": ["roti", "bread"], "aliases": ["frozen paratha", "paratha", "पराठा"] },
+
+  "rice":          { "category": "pantry", "unit": "kg", "avgIntervalDays": 30,   "substitutes": ["quinoa", "poha"], "aliases": ["rice", "chawal", "चावल", "arroz", "riz"] },
+  "wheat flour":   { "category": "pantry", "unit": "kg", "avgIntervalDays": 30,   "substitutes": ["multigrain flour", "maida"], "aliases": ["wheat flour", "atta", "आटा", "flour", "harina", "farine"] },
+  "sugar":         { "category": "pantry", "unit": "kg", "avgIntervalDays": 30,   "substitutes": ["jaggery", "honey", "stevia"], "aliases": ["sugar", "cheeni", "चीनी", "azúcar", "azucar", "sucre"] },
+  "salt":          { "category": "pantry", "unit": "kg", "avgIntervalDays": 60,   "substitutes": ["rock salt", "black salt"], "aliases": ["salt", "namak", "नमक", "sal", "sel"] },
+  "cooking oil":   { "category": "pantry", "unit": "litre", "avgIntervalDays": 25,"substitutes": ["olive oil", "ghee"], "aliases": ["oil", "cooking oil", "tel", "तेल", "aceite", "huile"] },
+  "lentils":       { "category": "pantry", "unit": "kg", "avgIntervalDays": 25,   "substitutes": ["chickpeas", "rajma"], "aliases": ["dal", "daal", "lentils", "दाल", "lentejas", "lentilles"] },
+  "pasta":         { "category": "pantry", "unit": "pack", "avgIntervalDays": 20, "substitutes": ["noodles", "macaroni"], "aliases": ["pasta", "macaroni", "पास्ता", "pâtes"] },
+  "tea":           { "category": "pantry", "unit": "g", "avgIntervalDays": 30,    "substitutes": ["green tea", "coffee"], "aliases": ["tea", "chai", "चाय", "té", "the", "thé"] },
+  "coffee":        { "category": "pantry", "unit": "g", "avgIntervalDays": 30,    "substitutes": ["instant coffee", "tea"], "aliases": ["coffee", "कॉफ़ी", "café", "cafe"] },
+  "honey":         { "category": "pantry", "unit": "g", "avgIntervalDays": 60,    "substitutes": ["jaggery", "maple syrup"], "aliases": ["honey", "shahad", "शहद", "miel"] },
+  "peanut butter": { "category": "pantry", "unit": "g", "avgIntervalDays": 30,    "substitutes": ["almond butter", "jam"], "aliases": ["peanut butter", "पीनट बटर"] },
+
+  "chips":         { "category": "snacks", "unit": "pack", "avgIntervalDays": 7,  "substitutes": ["namkeen", "popcorn"], "aliases": ["chips", "wafers", "चिप्स"] },
+  "chocolate":     { "category": "snacks", "unit": "pack", "avgIntervalDays": 10, "substitutes": ["candy", "cookies"], "aliases": ["chocolate", "चॉकलेट", "chocolat"] },
+  "namkeen":       { "category": "snacks", "unit": "pack", "avgIntervalDays": 10, "substitutes": ["chips", "mixture"], "aliases": ["namkeen", "नमकीन", "savoury snack", "mixture"] },
+
+  "water":         { "category": "beverages", "unit": "litre", "avgIntervalDays": 3, "substitutes": ["sparkling water"], "aliases": ["water", "paani", "पानी", "agua", "eau"] },
+  "juice":         { "category": "beverages", "unit": "litre", "avgIntervalDays": 7, "substitutes": ["fresh fruit", "smoothie"], "aliases": ["juice", "जूस", "zumo", "jugo", "jus"] },
+  "soft drink":    { "category": "beverages", "unit": "litre", "avgIntervalDays": 10,"substitutes": ["sparkling water", "juice"], "aliases": ["soft drink", "cold drink", "soda", "coke", "pepsi", "refresco"] },
+
+  "detergent":     { "category": "household", "unit": "kg", "avgIntervalDays": 30, "substitutes": ["liquid detergent", "washing powder"], "aliases": ["detergent", "surf", "washing powder", "डिटर्जेंट", "detergente", "lessive"] },
+  "dish soap":     { "category": "household", "unit": "ml", "avgIntervalDays": 25, "substitutes": ["dishwash bar"], "aliases": ["dish soap", "dishwash", "vim", "बर्तन साबुन"] },
+  "garbage bags":  { "category": "household", "unit": "pack", "avgIntervalDays": 30,"substitutes": ["bin liners"], "aliases": ["garbage bags", "trash bags", "dustbin bags", "कचरा बैग"] },
+  "toilet paper":  { "category": "household", "unit": "pack", "avgIntervalDays": 21,"substitutes": ["tissues"], "aliases": ["toilet paper", "tissue roll", "papel higiénico", "papier toilette"] },
+
+  "toothpaste":    { "category": "personal-care", "unit": "g", "avgIntervalDays": 30, "substitutes": ["tooth powder"], "aliases": ["toothpaste", "manjan", "टूथपेस्ट", "pasta de dientes", "dentifrice"] },
+  "shampoo":       { "category": "personal-care", "unit": "ml", "avgIntervalDays": 45,"substitutes": ["hair oil", "conditioner"], "aliases": ["shampoo", "शैम्पू", "champú", "champu", "shampooing"] },
+  "soap":          { "category": "personal-care", "unit": "pack", "avgIntervalDays": 30,"substitutes": ["body wash", "hand wash"], "aliases": ["soap", "sabun", "साबुन", "jabón", "jabon", "savon"] },
+  "hand wash":     { "category": "personal-care", "unit": "ml", "avgIntervalDays": 40, "substitutes": ["soap", "sanitizer"], "aliases": ["hand wash", "handwash", "हैंडवाश"] }
+}

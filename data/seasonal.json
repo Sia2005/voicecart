@@ -1,0 +1,14 @@
+{
+  "1":  { "note": "Peak winter produce — cheap and at its best right now", "inSeason": ["carrots", "spinach", "oranges", "capsicum", "coriander", "cauliflower"] },
+  "2":  { "note": "Late winter — citrus and greens still going strong", "inSeason": ["oranges", "spinach", "carrots", "lemons", "peas"] },
+  "3":  { "note": "Early spring — greens fading, melons arriving", "inSeason": ["cucumber", "coriander", "capsicum", "watermelon"] },
+  "4":  { "note": "Mango season is starting", "inSeason": ["mangoes", "cucumber", "watermelon", "lemons"] },
+  "5":  { "note": "Peak mango and melon month", "inSeason": ["mangoes", "watermelon", "cucumber", "lemons"] },
+  "6":  { "note": "Monsoon onset — mangoes on their way out", "inSeason": ["mangoes", "cucumber", "onions", "lemons"] },
+  "7":  { "note": "Monsoon — gourds and greens are freshest", "inSeason": ["onions", "tomatoes", "spinach", "ginger"] },
+  "8":  { "note": "Monsoon staples", "inSeason": ["tomatoes", "spinach", "ginger", "garlic"] },
+  "9":  { "note": "Post-monsoon — good produce returning", "inSeason": ["tomatoes", "capsicum", "carrots", "spinach"] },
+  "10": { "note": "Festive season — stock up on staples", "inSeason": ["potatoes", "onions", "paneer", "ghee", "sugar"] },
+  "11": { "note": "Early winter — root vegetables and greens", "inSeason": ["carrots", "spinach", "oranges", "capsicum", "peas"] },
+  "12": { "note": "Winter peak — best month for greens and citrus", "inSeason": ["carrots", "spinach", "oranges", "coriander", "peas"] }
+}
