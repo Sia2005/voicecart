@@ -43,7 +43,7 @@
   "cooking oil":   { "category": "pantry", "unit": "litre", "avgIntervalDays": 25,"substitutes": ["olive oil", "ghee"], "aliases": ["oil", "cooking oil", "tel", "तेल", "aceite", "huile"] },
   "lentils":       { "category": "pantry", "unit": "kg", "avgIntervalDays": 25,   "substitutes": ["chickpeas", "rajma"], "aliases": ["dal", "daal", "lentils", "दाल", "lentejas", "lentilles"] },
   "pasta":         { "category": "pantry", "unit": "pack", "avgIntervalDays": 20, "substitutes": ["noodles", "macaroni"], "aliases": ["pasta", "macaroni", "पास्ता", "pâtes"] },
-  "tea":           { "category": "pantry", "unit": "g", "avgIntervalDays": 30,    "substitutes": ["green tea", "coffee"], "aliases": ["tea", "chai", "चाय", "té", "the", "thé"] },
+    "tea":           { "category": "pantry", "unit": "g", "avgIntervalDays": 30,    "substitutes": ["green tea", "coffee"], "aliases": ["tea", "chai", "चाय", "té", "thé"] },
   "coffee":        { "category": "pantry", "unit": "g", "avgIntervalDays": 30,    "substitutes": ["instant coffee", "tea"], "aliases": ["coffee", "कॉफ़ी", "café", "cafe"] },
   "honey":         { "category": "pantry", "unit": "g", "avgIntervalDays": 60,    "substitutes": ["jaggery", "maple syrup"], "aliases": ["honey", "shahad", "शहद", "miel"] },
   "peanut butter": { "category": "pantry", "unit": "g", "avgIntervalDays": 30,    "substitutes": ["almond butter", "jam"], "aliases": ["peanut butter", "पीनट बटर"] },
