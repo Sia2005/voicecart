@@ -1,26 +1,37 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-paper: #FAF7F2;
+  --color-paper-raised: #FFFFFF;
+  --color-ink: #1C1917;
+  --color-ink-soft: #57534E;
+  --color-ink-faint: #A8A29E;
+  --color-accent: #D97706;
+  --color-accent-soft: #FEF3C7;
+  --color-line: #E7E2DA;
+  --color-danger: #B91C1C;
+  --color-live: #059669;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html, body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Mic pulse — used for the listening state */
+@keyframes mic-pulse {
+  0%   { box-shadow: 0 0 0 0 rgb(217 119 6 / 0.45); }
+  70%  { box-shadow: 0 0 0 22px rgb(217 119 6 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(217 119 6 / 0); }
 }
+.mic-listening { animation: mic-pulse 1.6s infinite; }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+.animate-rise { animation: rise 0.22s ease-out; }
