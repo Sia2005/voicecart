@@ -63,7 +63,11 @@ export function CategoryList({ items, isLoading, onToggle, onDelete }: CategoryL
     grouped.set(item.category, bucket);
   }
 
-  const sections = CATEGORY_ORDER.filter((category) => grouped.has(category));
+  const known = CATEGORY_ORDER.filter((category) => grouped.has(category));
+  const unknown = Array.from(grouped.keys()).filter(
+    (category) => !CATEGORY_ORDER.includes(category)
+  );
+  const sections = [...known, ...unknown];
 
   return (
     <div className="flex flex-col gap-5">
