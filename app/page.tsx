@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 import { LANGUAGES, DEFAULT_LANGUAGE } from "@/lib/languages";
@@ -11,8 +11,13 @@ export default function Home() {
   const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
   const [command, setCommand] = useState<ParsedCommand | null>(null);
   const [isParsing, setIsParsing] = useState(false);
+  const [sessionId, setSessionId] = useState("");
 
   const { speak } = useSpeechSynthesis(true);
+
+  useEffect(() => {
+    setSessionId(getClientSessionId());
+  }, []);
 
   const handleTranscript = useCallback(
     async (transcript: string) => {
@@ -40,7 +45,7 @@ export default function Home() {
     <main className="mx-auto flex max-w-md flex-col gap-4 p-6">
       <h1 className="text-2xl font-semibold">VoiceCart smoke test</h1>
 
-      <p className="text-sm text-ink-soft">session: {getClientSessionId().slice(0, 8)}</p>
+      <p className="text-sm text-ink-soft">session: {sessionId.slice(0, 8) || "…"}</p>
 
       <select
         value={language}
