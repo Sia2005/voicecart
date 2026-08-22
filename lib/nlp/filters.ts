@@ -15,6 +15,23 @@ const MIN_PRICE =
 
 const ORGANIC = /(^|\s)organic(\s|$)/;
 
+const SIZE = /(\d+(?:\.\d+)?)\s*(kgs?|kilos?|gms?|grams?|g|ml|millilitres?|litres?|liters?|lt|l|pcs|pieces|pc)\b/;
+
+const SIZE_UNITS: Record<string, string> = {
+  kg: "kg", kgs: "kg", kilo: "kg", kilos: "kg",
+  g: "g", gm: "g", gms: "g", gram: "g", grams: "g",
+  ml: "ml", millilitre: "ml", millilitres: "ml",
+  l: "l", lt: "l", litre: "l", litres: "l", liter: "l", liters: "l",
+  pc: "pcs", pcs: "pcs", piece: "pcs", pieces: "pcs",
+};
+
+export function normalizeSize(value: string): string {
+  const match = value.toLowerCase().match(SIZE);
+  if (!match) return value.toLowerCase().replace(/\s+/g, "");
+  const unit = SIZE_UNITS[match[2]] ?? match[2];
+  return `${Number(match[1])}${unit}`;
+}
+
 export function extractFilters(text: string): SearchFilters | null {
   const filters: SearchFilters = {};
 
@@ -31,6 +48,10 @@ export function extractFilters(text: string): SearchFilters | null {
   );
   if (brand) filters.brand = brand;
 
+  const withoutPrices = text.replace(MAX_PRICE, " ").replace(MIN_PRICE, " ");
+  const sizeMatch = withoutPrices.match(SIZE);
+  if (sizeMatch) filters.size = normalizeSize(sizeMatch[0]);
+
   return Object.keys(filters).length > 0 ? filters : null;
 }
 
@@ -39,6 +60,7 @@ export function stripFilterPhrases(text: string): string {
     .replace(MAX_PRICE, " ")
     .replace(MIN_PRICE, " ")
     .replace(ORGANIC, " ")
+    .replace(SIZE, " ")
     .replace(/\s+/g, " ")
     .trim();
 }

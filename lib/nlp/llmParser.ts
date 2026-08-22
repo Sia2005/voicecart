@@ -2,6 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import { allCanonicalItems, getItem, resolveAlias } from "./lexicon";
 import { parsedCommandSchema, geminiResponseSchema } from "./schema";
 import type { ParsedCommand, SearchFilters } from "@/types";
+import { isPlausibleItem } from "./stopwords";
 
 const MODEL = process.env.GEMINI_MODEL ?? "gemini-3.1-flash-lite";
 const TIMEOUT_MS = 6000;
@@ -30,7 +31,8 @@ function toParsedCommand(
 ): ParsedCommand {
   const parsed = parsedCommandSchema.parse(raw);
 
-  const canonical = parsed.item ? resolveAlias(parsed.item) : null;
+  const usableItem = parsed.item && isPlausibleItem(parsed.item) ? parsed.item : null;
+  const canonical = usableItem ? resolveAlias(usableItem) : null;
   const record = canonical ? getItem(canonical) : null;
 
   const filters: SearchFilters = {};
@@ -42,7 +44,7 @@ function toParsedCommand(
   return {
     intent: parsed.intent,
     canonicalItem: canonical,
-    rawItem: parsed.item,
+    rawItem: usableItem,
     quantity: parsed.quantity,
     unit: parsed.unit,
     category: record ? record.category : null,

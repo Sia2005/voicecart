@@ -1,37 +1,64 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #FAF7F2;
-  --color-paper-raised: #FFFFFF;
-  --color-ink: #1C1917;
-  --color-ink-soft: #57534E;
-  --color-ink-faint: #A8A29E;
-  --color-accent: #D97706;
-  --color-accent-soft: #FEF3C7;
-  --color-line: #E7E2DA;
-  --color-danger: #B91C1C;
-  --color-live: #059669;
+  --color-canvas: #E9EAE4;
+  --color-card: #FDFDFC;
+  --color-ink: #221D2B;
+  --color-muted: #6E6879;
+  --color-faint: #A5A1AD;
+  --color-rule: #D6D7D0;
+  --color-pine: #1D5A46;
+  --color-beet: #B4245C;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
 html, body {
-  background: var(--color-paper);
+  background: var(--color-canvas);
   color: var(--color-ink);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   overscroll-behavior-y: none;
 }
 
-/* Mic pulse — used for the listening state */
-@keyframes mic-pulse {
-  0%   { box-shadow: 0 0 0 0 rgb(217 119 6 / 0.45); }
-  70%  { box-shadow: 0 0 0 22px rgb(217 119 6 / 0); }
-  100% { box-shadow: 0 0 0 0 rgb(217 119 6 / 0); }
+@keyframes ribbon-in {
+  from { opacity: 0; transform: translateY(10px); filter: blur(3px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
-.mic-listening { animation: mic-pulse 1.6s infinite; }
 
-@keyframes rise {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes row-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
-.animate-rise { animation: rise 0.22s ease-out; }
+
+@keyframes listening-ring {
+  0%   { box-shadow: 0 0 0 0 rgb(180 36 92 / 0.35); }
+  70%  { box-shadow: 0 0 0 20px rgb(180 36 92 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(180 36 92 / 0); }
+}
+
+.animate-ribbon { animation: ribbon-in 0.3s cubic-bezier(0.2, 0.9, 0.3, 1); }
+.animate-row { animation: row-in 0.25s cubic-bezier(0.2, 0.9, 0.3, 1); }
+.listening-ring { animation: listening-ring 1.5s infinite; }
+
+.leader {
+  flex: 1;
+  min-width: 1.5rem;
+  border-bottom: 1px dotted #B9BAB2;
+  transform: translateY(-4px);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-pine);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

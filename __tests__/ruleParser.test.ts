@@ -197,4 +197,16 @@ describe("confidence gating", () => {
   it("always reports its source", () => {
     expect(parseWithRules("Add milk").source).toBe("rule");
   });
+
+  describe("implausible input", () => {
+  it("rejects measurement words as items", () => {
+    const result = parseWithRules("add metres");
+    expect(result.canonicalItem).toBeNull();
+    expect(result.rawItem).toBeNull();
+  });
+
+  it("rejects bare filler", () => {
+    expect(parseWithRules("add something").rawItem).toBeNull();
+  });
+});
 });

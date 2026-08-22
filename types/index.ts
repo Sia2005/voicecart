@@ -25,6 +25,7 @@ export interface SearchFilters {
   minPrice?: number;
   brand?: string;
   organic?: boolean;
+  size?: string;
 }
 
 export interface ParsedCommand {

@@ -6,9 +6,11 @@ import { LanguagePicker } from "@/components/LanguagePicker";
 import { CategoryList } from "@/components/CategoryList";
 import { SuggestionChips } from "@/components/SuggestionChips";
 import { SearchResults } from "@/components/SearchResults";
+import { TranscriptRibbon } from "@/components/TranscriptRibbon";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 import { DEFAULT_LANGUAGE } from "@/lib/languages";
+import { getItem } from "@/lib/nlp/lexicon";
 import {
   addByName,
   clearList,
@@ -38,6 +40,7 @@ interface Feedback {
 export default function Home() {
   const [items, setItems] = useState<ListItem[]>([]);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [substitutes, setSubstitutes] = useState<Suggestion[]>([]);
   const [search, setSearch] = useState<SearchState | null>(null);
   const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
   const [isLoading, setIsLoading] = useState(true);
@@ -95,21 +98,35 @@ export default function Home() {
     async (command: ParsedCommand) => {
       const label = command.canonicalItem ?? command.rawItem ?? "that";
 
+      if (command.intent !== "ADD") setSubstitutes([]);
+
       switch (command.intent) {
         case "ADD": {
           if (!command.canonicalItem && !command.rawItem) {
-            announce("error", "I didn't catch an item.");
+            announce("error", "No item in that command.");
             return;
           }
           await createItem(command);
           announce("success", `Added ${label}`, `Added ${label}`);
+
+          const record = command.canonicalItem ? getItem(command.canonicalItem) : null;
+          setSubstitutes(
+            record
+              ? record.substitutes.slice(0, 3).map((name) => ({
+                  kind: "substitute" as const,
+                  item: name,
+                  reason: `Alternative to ${label}`,
+                  category: record.category,
+                }))
+              : []
+          );
           break;
         }
 
         case "REMOVE": {
           const existing = findOnList(command);
           if (!existing) {
-            announce("error", `${label} isn't on your list.`, `${label} is not on your list`);
+            announce("error", `${label} is not on the list.`, `${label} is not on your list`);
             return;
           }
           lastDeleted.current = existing;
@@ -121,7 +138,7 @@ export default function Home() {
         case "CHECK_OFF": {
           const existing = findOnList(command);
           if (!existing) {
-            announce("error", `${label} isn't on your list.`);
+            announce("error", `${label} is not on the list.`);
             return;
           }
           await updateItem(existing._id, { checked: true });
@@ -132,7 +149,7 @@ export default function Home() {
         case "UPDATE_QTY": {
           const existing = findOnList(command);
           if (!existing || command.quantity === null) {
-            announce("error", "Tell me the item and the new quantity.");
+            announce("error", "Name the item and the new quantity.");
             return;
           }
           await updateItem(existing._id, { quantity: command.quantity });
@@ -170,7 +187,7 @@ export default function Home() {
         }
 
         default: {
-          announce("error", "I didn't understand that.", "Sorry, I did not understand");
+          announce("error", "Command not recognised.", "I did not understand that");
           return;
         }
       }
@@ -187,7 +204,7 @@ export default function Home() {
         const command = await parseTranscript(transcript);
         await runCommand(command);
       } catch {
-        announce("error", "Something went wrong. Try again.");
+        announce("error", "Request failed. Try again.");
       } finally {
         setIsBusy(false);
       }
@@ -245,6 +262,7 @@ export default function Home() {
       try {
         await addByName(suggestion.item, suggestion.category);
         announce("success", `Added ${suggestion.item}`);
+        setSubstitutes([]);
         await refresh();
       } catch {
         announce("error", "Could not add that.");
@@ -284,16 +302,24 @@ export default function Home() {
   const remaining = items.filter((item) => !item.checked).length;
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col gap-5 px-4 pb-40 pt-6">
-      <header className="flex items-start justify-between">
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col gap-6 px-5 pb-52 pt-6">
+      <header className="flex items-start justify-between border-b border-ink pb-3">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">VoiceCart</h1>
-          <p className="text-sm text-ink-soft">
-            {remaining} item{remaining === 1 ? "" : "s"} to buy
+          <h1 className="font-display text-2xl font-extrabold tracking-tight">VoiceCart</h1>
+          <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
+            {remaining} to buy
           </p>
         </div>
         <LanguagePicker value={language} onChange={setLanguage} />
       </header>
+
+      {substitutes.length > 0 && (
+        <SuggestionChips
+          suggestions={substitutes}
+          onAccept={handleSuggestion}
+          onDismiss={() => setSubstitutes([])}
+        />
+      )}
 
       <SuggestionChips suggestions={suggestions} onAccept={handleSuggestion} />
 
@@ -315,32 +341,34 @@ export default function Home() {
         onDelete={handleDelete}
       />
 
-      <div className="fixed inset-x-0 bottom-0 border-t border-line bg-paper/95 backdrop-blur">
-        <div className="mx-auto flex max-w-md flex-col items-center gap-3 px-4 py-4">
-          {interimTranscript && (
-            <p className="animate-rise text-sm italic text-ink-faint">{interimTranscript}</p>
-          )}
+      <div className="fixed inset-x-0 bottom-0 border-t border-ink bg-canvas/95 backdrop-blur">
+        <div className="mx-auto flex max-w-md flex-col gap-3 px-5 py-4">
+          <TranscriptRibbon interim={interimTranscript} isBusy={isBusy} />
 
           {feedback && (
             <p
               role="status"
-              className={`animate-rise text-sm ${
+              className={`animate-row font-mono text-[11px] uppercase tracking-wider ${
                 feedback.tone === "error"
-                  ? "text-danger"
+                  ? "text-beet"
                   : feedback.tone === "success"
-                    ? "text-live"
-                    : "text-ink-soft"
+                    ? "text-pine"
+                    : "text-muted"
               }`}
             >
               {feedback.message}
             </p>
           )}
 
-          {errorMessage && <p className="text-sm text-danger">{errorMessage}</p>}
+          {errorMessage && (
+            <p className="font-mono text-[11px] uppercase tracking-wider text-beet">
+              {errorMessage}
+            </p>
+          )}
 
           <MicButton status={status} isBusy={isBusy} onStart={start} onStop={stop} />
 
-          <div className="flex w-full items-center gap-2">
+          <div className="flex items-center gap-2">
             <input
               value={typed}
               onChange={(event) => setTyped(event.target.value)}
@@ -348,17 +376,18 @@ export default function Home() {
                 if (event.key === "Enter") handleTyped();
               }}
               placeholder="or type a command"
-              className="flex-1 rounded-full border border-line bg-paper-raised px-4 py-2 text-sm outline-none focus:border-accent"
+              className="flex-1 border-b border-rule bg-transparent px-1 py-1.5 text-sm outline-none placeholder:text-faint focus:border-ink"
             />
             <button
               type="button"
               onClick={() => setVoiceReplies((current) => !current)}
-              aria-label={voiceReplies ? "Mute spoken replies" : "Enable spoken replies"}
-              className={`rounded-full border px-3 py-2 text-xs ${
-                voiceReplies ? "border-accent bg-accent-soft" : "border-line text-ink-faint"
+              aria-pressed={voiceReplies}
+              aria-label={voiceReplies ? "Turn off spoken replies" : "Turn on spoken replies"}
+              className={`border px-2 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors ${
+                voiceReplies ? "border-ink bg-ink text-card" : "border-rule text-faint"
               }`}
             >
-              {voiceReplies ? "🔊" : "🔇"}
+              voice
             </button>
           </div>
         </div>

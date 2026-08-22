@@ -4,7 +4,7 @@ import type { PurchaseDocument } from "@/lib/db/models/Purchase";
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-export type SuggestionKind = "replenish" | "seasonal" | "substitute";
+export type SuggestionKind = "replenish" | "seasonal" | "substitute" | "sale";
 
 export interface Suggestion {
   kind: SuggestionKind;
@@ -84,4 +84,28 @@ export function substituteSuggestions(canonicalItem: string): Suggestion[] {
     reason: `Alternative to ${canonicalItem}`,
     category: record.category,
   }));
+}
+
+import catalogData from "@/data/catalog.json";
+import type { CatalogProduct } from "@/types";
+
+const CATALOG = catalogData as CatalogProduct[];
+
+export function onSaleSuggestions(itemsOnList: Set<string>): Suggestion[] {
+  const seen = new Set<string>();
+
+  return CATALOG.filter((product) => product.onSale && product.inStock)
+    .filter((product) => !itemsOnList.has(product.item))
+    .filter((product) => {
+      if (seen.has(product.item)) return false;
+      seen.add(product.item);
+      return true;
+    })
+    .slice(0, 2)
+    .map((product) => ({
+      kind: "sale" as const,
+      item: product.item,
+      reason: `${product.name} is ₹${product.price} this week`,
+      category: product.category,
+    }));
 }

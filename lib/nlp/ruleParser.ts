@@ -4,6 +4,7 @@ import { getItem, resolveAlias, MAX_ALIAS_WORDS } from "./lexicon";
 import { parseNumberToken } from "./numbers";
 import { normalizeUnit } from "./units";
 import type { Intent, ParsedCommand, SearchFilters } from "@/types";
+import { isPlausibleItem } from "./stopwords";
 
 const FILLER_WORDS = new Set([
   "please", "my", "the", "a", "an", "some", "to", "from", "list",
@@ -156,7 +157,7 @@ export function parseWithRules(transcript: string): ParsedCommand {
   return {
     intent: intentMatch.intent,
     canonicalItem: itemMatch ? itemMatch.canonical : null,
-    rawItem: rawItem.length > 0 ? rawItem : null,
+        rawItem: rawItem.length > 0 && isPlausibleItem(rawItem) ? rawItem : null,
     quantity: quantityMatch ? quantityMatch.quantity : null,
     unit: quantityMatch ? quantityMatch.unit : null,
     category: record ? record.category : null,

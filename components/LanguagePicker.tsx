@@ -9,14 +9,15 @@ interface LanguagePickerProps {
 
 export function LanguagePicker({ value, onChange }: LanguagePickerProps) {
   return (
-    <div className="flex gap-1 rounded-full border border-line bg-paper-raised p-1">
+    <div className="flex border border-rule">
       {LANGUAGES.map((language) => (
         <button
           key={language.code}
           type="button"
           onClick={() => onChange(language.code)}
-          className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-            value === language.code ? "bg-ink text-paper" : "text-ink-soft hover:bg-accent-soft"
+          aria-pressed={value === language.code}
+          className={`px-2 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors ${
+            value === language.code ? "bg-ink text-card" : "text-muted hover:text-ink"
           }`}
         >
           {language.short}

@@ -10,11 +10,11 @@ interface MicButtonProps {
 }
 
 const LABELS: Record<RecognitionStatus, string> = {
-  idle: "Tap to speak",
-  listening: "Listening…",
-  denied: "Microphone blocked",
-  unsupported: "Voice unavailable",
-  error: "Tap to retry",
+  idle: "Hold the mic, say what you need",
+  listening: "Listening",
+  denied: "Allow microphone access to speak",
+  unsupported: "Type your command below",
+  error: "Didn't catch that — tap to retry",
 };
 
 export function MicButton({ status, isBusy, onStart, onStop }: MicButtonProps) {
@@ -22,28 +22,35 @@ export function MicButton({ status, isBusy, onStart, onStop }: MicButtonProps) {
   const isDisabled = status === "unsupported" || status === "denied";
 
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex flex-col items-center gap-2">
       <button
         type="button"
         onClick={isListening ? onStop : onStart}
         disabled={isDisabled}
         aria-label={LABELS[status]}
-        className={`flex h-24 w-24 items-center justify-center rounded-full transition-transform active:scale-95 disabled:cursor-not-allowed disabled:bg-line ${
-          isListening ? "bg-danger mic-listening" : "bg-accent"
+        className={`flex h-16 w-16 items-center justify-center rounded-full border transition-transform active:scale-95 disabled:cursor-not-allowed disabled:border-rule disabled:bg-transparent ${
+          isListening ? "listening-ring border-beet bg-beet" : "border-ink bg-ink"
         }`}
       >
         {isBusy ? (
-          <span className="h-7 w-7 animate-spin rounded-full border-2 border-white border-t-transparent" />
+          <span className="h-5 w-5 animate-spin rounded-full border-2 border-card border-t-transparent" />
         ) : (
-          <svg viewBox="0 0 24 24" className="h-10 w-10" fill="none" stroke="white" strokeWidth="1.8">
-            <rect x="9" y="3" width="6" height="11" rx="3" />
-            <path d="M5 11a7 7 0 0 0 14 0" strokeLinecap="round" />
-            <path d="M12 18v3" strokeLinecap="round" />
+          <svg
+            viewBox="0 0 24 24"
+            className={`h-7 w-7 ${isDisabled ? "stroke-faint" : "stroke-card"}`}
+            fill="none"
+            strokeWidth="1.6"
+          >
+            <rect x="9.5" y="3.5" width="5" height="10" rx="2.5" />
+            <path d="M5.5 11a6.5 6.5 0 0 0 13 0" strokeLinecap="round" />
+            <path d="M12 17.5V21" strokeLinecap="round" />
           </svg>
         )}
       </button>
 
-      <p className="text-sm text-ink-soft">{isBusy ? "Working on it…" : LABELS[status]}</p>
+      <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
+        {isBusy ? "Working" : LABELS[status]}
+      </p>
     </div>
   );
 }
