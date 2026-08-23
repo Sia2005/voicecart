@@ -2,7 +2,7 @@
 
 **Speak your shopping list.** Add, remove, update, check off and search groceries by voice in English, Hindi, Spanish or French — with automatic categorisation, quantity parsing, replenishment suggestions and price-filtered catalogue search.
 
-**Live:** https://REPLACE-WITH-YOUR-URL.vercel.app · **Best experienced in Chrome or Edge**
+**Live:** https://voicecart-sia22.vercel.app/ **Best experienced in Chrome or Edge**
 
 ![VoiceCart](docs/list.png)
 
